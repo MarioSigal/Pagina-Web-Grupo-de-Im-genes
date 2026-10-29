@@ -1,0 +1,1051 @@
+/* ==========================================================================
+   PollenBB16 — Visual Gallery (3 Photos Per Row)
+   2px Clean Black Divider Lines, Sharp Square Edges (No Curves),
+   Strictly Square 1:1 Resting Cells (Zero Image Loss),
+   Fluid Height & Width Expansion on Hover,
+   Transparent Hamburger Icon & Edge-to-Edge White Projects Drawer
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Botón Transparente de 3 Rayitas (Arriba a la Izquierda)
+   ========================================================================== */
+
+.menu-btn {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 500;
+  width: 42px;
+  height: 42px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0; /* Sin curvar bordes */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px;
+  transition: all 0.25s ease;
+}
+
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.menu-btn .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 0; /* Sin curvas */
+}
+
+/* ==========================================================================
+   Panel Desplegable Blanco de Proyectos
+   ========================================================================== */
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 600;
+  display: flex;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.drawer-content {
+  width: 380px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 6px 0 35px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.drawer-overlay.hidden .drawer-content {
+  transform: translateX(-100%);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 22px;
+  border-bottom: 2px solid #000000;
+}
+
+.drawer-header h3 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #000000;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+  opacity: 0.6;
+}
+
+.drawer-body {
+  padding: 24px 0; /* Sin padding horizontal para que las líneas toquen ambos bordes */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+  margin: 0 22px; /* Margen interno para el contenido de los proyectos */
+  cursor: pointer;
+  border-left: 3px solid #000000;
+  background: #f8fafc;
+  transition: background 0.2s ease;
+}
+
+.project-card:hover {
+  background: #f1f5f9;
+}
+
+.project-card.active-project {
+  border-left: 4px solid #000000;
+  background: #e2e8f0;
+  position: relative;
+}
+
+.project-card.active-project::after {
+  content: "ACTIVO";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 2px 6px;
+  background: #000000;
+  color: #ffffff;
+}
+
+.project-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #047857;
+}
+
+.project-status.future {
+  color: #64748b;
+}
+
+.project-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1.3;
+}
+
+.project-card p {
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.45;
+}
+
+/* Líneas sólidas completas de borde a borde del panel */
+.project-separator {
+  width: 100%;
+  margin: 18px 0;
+  border: none;
+  border-top: 2px solid #000000;
+  height: 0;
+  display: block;
+}
+
+/* ==========================================================================
+   Galería 100% Visual: Celdas estrictamente cuadradas (1:1) en reposo
+   ========================================================================== */
+
+.gallery-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 2px; /* Mini barrita negra de 2px entre filas */
+  background-color: #000000;
+}
+
+/* Cada fila contiene exactamente 3 fotos: [Original | YOLO | SAM]
+   Cada celda tiene aspect-ratio: 1 / 1 (estrictamente cuadrada).
+   En reposo, 3 celdas cuadradas llenan exactamente el 100% del ancho de la pantalla
+   sin perder nada de imagen horizontal ni verticalmente. */
+.pollen-row {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 2px; /* Mini barrita negra de 2px entre columnas */
+  background-color: #000000;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Celda de cada foto: en reposo ocupan 1/3 (flex: 1) y son 1:1 cuadradas */
+.photo-cell {
+  flex: 1;
+  aspect-ratio: 1 / 1; /* Celdas estrictamente cuadradas (1:1) en reposo */
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0; /* Sin curvar bordes */
+  min-width: 0;
+  min-height: 0;
+  transition: flex 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Imagen dentro de la celda: llena el espacio con nitidez */
+.photo-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border: none;
+  border-radius: 0; /* Sin curvas */
+}
+
+/* ==========================================================================
+   Apertura a 16:9 con Clic:
+   La celda clicada pasa a proporción 16:9 y las otras dos se comprimen
+   ========================================================================== */
+
+.photo-cell.is-expanded {
+  flex: 5.5;
+  aspect-ratio: 16 / 9; /* Proporción panorámica 16:9 al abrir */
+  z-index: 10;
+  opacity: 1 !important;
+}
+
+/* Las otras dos celdas de la fila se comprimen elegantemente a los lados */
+.pollen-row.has-expanded .photo-cell:not(.is-expanded) {
+  flex: 0.8;
+  opacity: 0.6;
+}
+
+.pollen-row.has-expanded .photo-cell:not(.is-expanded):hover {
+  opacity: 0.95;
+}
+
+/* Indicador visual de formato 16:9 activo */
+.photo-cell .expand-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.photo-cell.is-expanded .expand-indicator {
+  display: flex;
+}
+
+/* Etiquetas flotantes discretas */
+.photo-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 0; /* Rectas sin curvas */
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.tag-orig { border-left: 3px solid #00e5ff; }
+.tag-yolo { border-left: 3px solid #ffb300; }
+.tag-sam  { border-left: 3px solid #c084fc; }
+
+.species-name {
+  font-style: italic;
+  font-size: 10px;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+.grains-count {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   Vistas de Proyectos (Señas Argentinas / Placeholders)
+   ========================================================================== */
+
+.gallery-container.hidden {
+  display: none;
+}
+
+.project-view {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 70px 24px 60px 24px;
+  animation: fadeInView 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-view.hidden {
+  display: none;
+}
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-container {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.placeholder-container {
+  max-width: 650px;
+  margin-top: 40px;
+}
+
+.project-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.project-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  background: #111111;
+  color: #94a3b8;
+  border: 1px solid #262626;
+  border-radius: 0;
+}
+
+.project-badge.status-badge {
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.08);
+}
+
+.project-badge.future-badge {
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.project-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.project-meta {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.project-meta strong {
+  color: #f1f5f9;
+}
+
+/* Video Showcase Card */
+.video-card {
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0a;
+  border: 2px solid #1f1f1f;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-wrapper video {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  background: #000000;
+  border: none;
+  border-radius: 0;
+}
+
+.video-overlay-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-left: 3px solid #00e5ff;
+  border-radius: 0;
+  pointer-events: none;
+}
+
+.video-info-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: #1a1a1a;
+  border-top: 2px solid #1a1a1a;
+}
+
+.info-block {
+  background: #0d0d0d;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #64748b;
+}
+
+.info-desc {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+
+.project-description-box {
+  background: #0d0d0d;
+  border: 2px solid #1a1a1a;
+  border-left: 4px solid #00e5ff;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-description-box h3 {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.project-description-box p {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.project-description-box strong {
+  color: #ffffff;
+}
+
+.project-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .video-info-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .project-title {
+    font-size: 22px;
+  }
+
+  .project-view {
+    padding-top: 60px;
+  }
+}
+
+/* ==========================================================================
+   Vistas de Proyectos a Pantalla Completa (Joystick & Semáforos)
+   ========================================================================== */
+
+.project-view.fullwidth-view {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.fullwidth-project-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  gap: 28px !important;
+}
+
+.project-header-padded {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.project-box-padded {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+
+.project-actions-padded {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 30px auto;
+  padding: 0 24px;
+}
+
+/* Stack de videos continuo ocupando toda la pantalla (uno arriba del otro) */
+.fullscreen-videos-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  gap: 2px;
+  border-top: 2px solid #1a1a1a;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.fullscreen-video-block {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fullscreen-video-block video {
+  width: 100%;
+  height: auto;
+  max-height: 94vh;
+  object-fit: contain;
+  display: block;
+  background: #000000;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.video-separator-line {
+  width: 100%;
+  height: 2px;
+  background-color: #1a1a1a;
+}
+
+/* ==========================================================================
+   Matriz 2x2 de Videos Continuos (Señas: Asado, Hambre, Moneda, Parir)
+   ========================================================================== */
+
+.senas-matrix-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  border-top: 2px solid #1a1a1a;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.matrix-title-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 24px;
+}
+
+.matrix-badge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 4px 10px;
+}
+
+.matrix-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.senas-matrix-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  background-color: #1a1a1a;
+  aspect-ratio: 16 / 9;
+  max-height: 96vh;
+}
+
+.senas-matrix-cell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.senas-matrix-cell video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  background: #000000;
+}
+
+.senas-matrix-cell:hover .video-overlay-tag {
+  background: rgba(0, 229, 255, 0.25);
+  border-left-color: #ffffff;
+}
+
+/* ==========================================================================
+   Stack de Diapositivas a Pantalla Completa (GSF — Roni Barylko)
+   ========================================================================== */
+
+.fullscreen-slides-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  gap: 2px;
+  border-top: 2px solid #1a1a1a;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.fullscreen-slide-block {
+  position: relative;
+  width: 100%;
+  background: #0b0f19;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.fullscreen-slide-block img {
+  width: 100%;
+  height: auto;
+  max-height: 96vh;
+  object-fit: contain;
+  display: block;
+  background: #0b0f19;
+  border: none;
+  border-radius: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fullscreen-slide-block:hover img {
+  opacity: 0.95;
+}
+
+.slide-overlay-tag {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-left: 3px solid #f59e0b;
+  border-radius: 0;
+  pointer-events: none;
+}
+
+.slide-separator-line {
+  width: 100%;
+  height: 2px;
+  background-color: #1a1a1a;
+}
+
+/* ==========================================================================
+   Sección de Fotos Lado a Lado: Maps y Modelo (Semáforos)
+   ========================================================================== */
+
+.comparison-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #000000;
+}
+
+.comparison-title-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.comparison-badge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 4px 10px;
+}
+
+.comparison-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.side-by-side-gallery {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 2px;
+  background: #000000;
+  border-top: 2px solid #1a1a1a;
+  border-bottom: 2px solid #1a1a1a;
+  position: relative;
+}
+
+.side-photo-card {
+  flex: 1;
+  min-width: 0;
+  background: #080808;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.side-photo-wrapper {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.side-photo-card:hover .side-photo-wrapper img {
+  transform: scale(1.015);
+}
+
+.side-photo-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  position: relative;
+  z-index: 5;
+}
+
+.divider-arrow-badge {
+  position: absolute;
+  background: #0a0a0a;
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  font-size: 16px;
+  font-weight: 900;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.side-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid #00e5ff;
+  pointer-events: none;
+}
+
+.tag-maps {
+  border-left-color: #38bdf8;
+}
+
+.tag-model {
+  border-left-color: #34d399;
+}
+
+.side-tag-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #f8fafc;
+}
+
+.side-tag-desc {
+  font-size: 11px;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Modal Lightbox para Ampliación de Fotos
+   ========================================================================== */
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.image-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 6px 14px;
+  cursor: pointer;
+  z-index: 1010;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.modal-img-container {
+  max-width: 95vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-img-container img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.modal-caption {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #cbd5e1;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .side-by-side-gallery {
+    flex-direction: column;
+  }
+
+  .side-photo-divider {
+    height: 0;
+    width: 100%;
+  }
+
+  .side-photo-wrapper {
+    height: 300px;
+  }
+}

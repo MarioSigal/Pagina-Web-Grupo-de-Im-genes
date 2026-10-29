@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PollenBB16 — Galería Visual (Original | YOLO | SAM)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Botón transparente de 3 rayitas de menú arriba a la izquierda -->
+  <button id="menu-toggle" class="menu-btn" title="Ver Proyectos">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <!-- Panel desplegable blanco de proyectos -->
+  <div id="projects-drawer" class="drawer-overlay hidden">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h3>Proyectos</h3>
+        <button id="drawer-close" class="close-btn" title="Cerrar">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="project-card active-project" data-project="pollen">
+          <span class="project-status">En desarrollo</span>
+          <h4>Segmentación de Polen</h4>
+          <p>Dataset PollenBB16 (16 especies) — Pipeline YOLO11 y μSAM (Segment Anything Model for Microscopy).</p>
+          <p>Mario Sigal Aguirre.</p>
+          <p>Tesis de Licenciatura en Ciencias de Datos.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+
+        <div class="project-card placeholder-project" data-project="trompos">
+          <span class="project-status">En desarrollo</span>
+          <h4>Simulador de Trayectorias Fisicas de Tompos</h4>
+          <p>Módulo para generar secuencias de video que simulan un trompo mediante MuJoco. Regido mediante una ODE.</p>
+          <p>Leonardo Lucas Dominguez.</p>
+          <p>proyecto de investigación.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+
+        <div class="project-card" data-project="senas">
+          <span class="project-status">En desarrollo</span>
+          <h4>Reconocedor Automatico de Señas Argentinas</h4>
+          <p>Modelo Bi-Gru con cross-attention entre diferentes partes del cuerpo entrenado en LSA64 (Lenguaje de Señas
+            Argentino, 64 señas) utilizando mediapipe como extractor de pose</p>
+          <p>Ignacio Giuliano Iannello.</p>
+          <p>Tesis de Licenciatura en Ciencias de la computación.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+
+        <div class="project-card" data-project="gsf">
+          <span class="project-status">En desarrollo</span>
+          <h4>Gate-Shift-Fuse para reconocimiento de acciones en video</h4>
+          <p>Módulo liviano para detección de acciones en video: transforma un clasificador de imágenes 2D en un
+            detector
+            de acciones temporales sin pagar el costo de una red 3D.</p>
+          <p>Roni Barylko.</p>
+          <p>Tesis de Licenciatura en Ciencias de la Computación.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+
+        <div class="project-card" data-project="semaforos">
+          <span class="project-status">En desarrollo</span>
+          <h4>Optimización de semáforos con RL</h4>
+          <p>Simulación digital del flujo vehicular en SUMO integrada con detección en tiempo real de vehículos (YOLO).
+            Entrenado con Aprendizaje por Refuerzo para optimizar la secuencia y sincronización de semáforos.</p>
+          <p>Julián Recalde Campos.</p>
+          <p>Tesis de Licenciatura en Ciencias de la Computación.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+
+        <div class="project-card" data-project="joystick">
+          <span class="project-status">En desarrollo</span>
+          <h4>Mapping de inputs de un joystick</h4>
+          <p>Detección de inputs a partir de una red neuronal que identifica interacciones con el dispositivo. Utiliza
+            YOLO y MediaPipe.</p>
+          <p>Nicolas Matias Yañez.</p>
+          <p>Tesis de Licenciatura en Ciencias de la Computación.</p>
+          <p>2026-2027.</p>
+        </div>
+
+        <div class="project-separator"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Galería 100% Visual de Fotos (Segmentación de Polen) -->
+  <div class="gallery-container" id="gallery"></div>
+
+  <!-- Vista: Reconocedor Automático de Señas Argentinas (Matriz 2x2 en GIF continuo + Video Demo a pantalla completa) -->
+  <div class="project-view fullwidth-view hidden" id="senas-view">
+    <div class="project-container fullwidth-project-container">
+      <div class="project-header project-header-padded">
+        <div class="project-tags">
+          <span class="project-badge status-badge">En desarrollo</span>
+          <span class="project-badge">LSA64 Dataset</span>
+          <span class="project-badge">MediaPipe Holistic</span>
+          <span class="project-badge">Bi-GRU + Cross-Attention</span>
+        </div>
+        <h1 class="project-title">Reconocedor Automático de Señas Argentinas</h1>
+        <p class="project-meta">
+          <strong>Ignacio Giuliano Iannello</strong> · Tesis de Licenciatura en Ciencias de la Computación · 2026-2027
+        </p>
+      </div>
+
+      <!-- Matriz 2x2 de videos continuos tipo GIF ocupando toda la pantalla (Asado, Hambre, Moneda, Parir) -->
+      <div class="senas-matrix-container">
+        <div class="matrix-title-strip">
+          <span class="matrix-badge">Corpus LSA64 · Matriz de Signos 2×2</span>
+          <span class="matrix-hint">Reproducción continua · Haz clic en cualquier video para pausar/reanudar</span>
+        </div>
+        <div class="senas-matrix-grid">
+          <!-- Fila 1, Columna 1: Asado -->
+          <div class="senas-matrix-cell">
+            <video id="senas-asado" autoplay loop muted playsinline preload="auto">
+              <source src="assets/senas/Asado.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+            <div class="video-overlay-tag">
+              <span>Seña · Asado</span>
+            </div>
+          </div>
+
+          <!-- Fila 1, Columna 2: Hambre -->
+          <div class="senas-matrix-cell">
+            <video id="senas-hambre" autoplay loop muted playsinline preload="auto">
+              <source src="assets/senas/Hambre.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+            <div class="video-overlay-tag">
+              <span>Seña · Hambre</span>
+            </div>
+          </div>
+
+          <!-- Fila 2, Columna 1: Moneda -->
+          <div class="senas-matrix-cell">
+            <video id="senas-moneda" autoplay loop muted playsinline preload="auto">
+              <source src="assets/senas/Moneda.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+            <div class="video-overlay-tag">
+              <span>Seña · Moneda</span>
+            </div>
+          </div>
+
+          <!-- Fila 2, Columna 2: Parir -->
+          <div class="senas-matrix-cell">
+            <video id="senas-parir" autoplay loop muted playsinline preload="auto">
+              <source src="assets/senas/Parir.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+            <div class="video-overlay-tag">
+              <span>Seña · Parir</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Demo en pantalla completa continua tipo GIF -->
+      <div class="fullscreen-videos-stack">
+        <div class="fullscreen-video-block">
+          <video id="senas-demo" autoplay loop muted playsinline preload="auto">
+            <source src="assets/senas/Demo.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video HTML5.
+          </video>
+          <div class="video-overlay-tag">
+            <span>Demostración de Inferencia en Tiempo Real · Pipeline Completo LSA64</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-description-box project-box-padded">
+        <h3>Acerca del Modelo</h3>
+        <p>
+          El sistema implementa un modelo recurrente <strong>Bi-GRU con mecanismos de atención cruzada
+            (cross-attention)</strong>
+          entre diferentes regiones corporales (articulaciones de brazos, tronco y puntos clave de las manos),
+          entrenado sobre el corpus <strong>LSA64</strong> (Lengua de Señas Argentina).
+          La extracción previa de pose y coordenadas tridimensionales de las articulaciones se realiza mediante
+          <strong>MediaPipe</strong>, transformando las secuencias de video en dinámicas temporales del esqueleto para
+          la clasificación en tiempo real.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista: Detección y Tracking de Joystick (Videos en GIF continuo ocupando toda la página) -->
+  <div class="project-view fullwidth-view hidden" id="joystick-view">
+    <div class="project-container fullwidth-project-container">
+      <div class="project-header project-header-padded">
+        <div class="project-tags">
+          <span class="project-badge status-badge">En desarrollo</span>
+          <span class="project-badge">YOLO &amp; MediaPipe</span>
+          <span class="project-badge">Detección de Inputs</span>
+          <span class="project-badge">Gamepad &amp; Pose Tracking</span>
+        </div>
+        <h1 class="project-title">Mapping de Inputs de un Joystick</h1>
+        <p class="project-meta">
+          <strong>Nicolas Matias Yañez</strong> · Tesis de Licenciatura en Ciencias de la Computación · 2026-2027
+        </p>
+      </div>
+
+      <!-- Videos continuos en GIF uno arriba del otro ocupando toda la pantalla -->
+      <div class="fullscreen-videos-stack">
+        <div class="fullscreen-video-block">
+          <video id="joystick-video-1" autoplay loop muted playsinline preload="auto">
+            <source src="assets/joystick/clip_0012_overlay.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video HTML5.
+          </video>
+          <div class="video-overlay-tag">
+            <span>Vista Cenital · Detección de Controles (Sticks, Triggers, Botones) y Segmentación de Dedos</span>
+          </div>
+        </div>
+
+        <div class="video-separator-line"></div>
+
+        <div class="fullscreen-video-block">
+          <video id="joystick-video-2" autoplay loop muted playsinline preload="auto">
+            <source src="assets/joystick/output.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video HTML5.
+          </video>
+          <div class="video-overlay-tag">
+            <span>Vista Frontal · Tracking de Pose 3D &amp; Articulaciones de Manos sobre Mando</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-description-box project-box-padded">
+        <h3>Acerca del Pipeline</h3>
+        <p>
+          Este sistema combina modelos de detección de objetos en tiempo real (YOLO) para localizar con precisión
+          el mando de videojuegos (gamepad), sticks analógicos (derecho e izquierdo) y gatillos (triggers),
+          junto con segmentación semántica y modelos de estimación de pose en manos para registrar la interacción motriz
+          y pulsaciones continuas durante la manipulación del controlador.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista: Optimización de Semáforos con RL (Fotos Maps + Modelo lado a lado, y Videos 1 y 2 en tamaño completo) -->
+  <div class="project-view fullwidth-view hidden" id="semaforos-view">
+    <div class="project-container fullwidth-project-container">
+      <div class="project-header project-header-padded">
+        <div class="project-tags">
+          <span class="project-badge status-badge">En desarrollo</span>
+          <span class="project-badge">SUMO Simulation</span>
+          <span class="project-badge">YOLO Vehicle &amp; Light Detection</span>
+          <span class="project-badge">Reinforcement Learning</span>
+        </div>
+        <h1 class="project-title">Optimización de Semáforos con Aprendizaje por Refuerzo</h1>
+        <p class="project-meta">
+          <strong>Julián Recalde Campos</strong> · Tesis de Licenciatura en Ciencias de la Computación · 2026-2027
+        </p>
+      </div>
+
+      <!-- Sección de Fotos lado a lado: Maps y Modelo -->
+      <div class="comparison-section">
+        <div class="comparison-title-strip">
+          <span class="comparison-badge">Pipeline de Modelado Urbano</span>
+          <span class="comparison-hint">Transición directa de cartografía satelital a red digital de simulación</span>
+        </div>
+
+        <div class="side-by-side-gallery">
+          <div class="side-photo-card" id="card-photo-maps">
+            <div class="side-photo-wrapper">
+              <img src="assets/semaforos/maps.jpeg" alt="Google Maps - Entorno Real Av. Maipú" loading="lazy">
+              <div class="side-tag tag-maps">
+                <span class="side-tag-title">1. Google Maps (Entorno Real)</span>
+                <span class="side-tag-desc">Av. Maipú y Carlos Villate — Vicente López</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="side-photo-divider">
+            <div class="divider-arrow-badge" title="Generación automática de red">➔</div>
+          </div>
+
+          <div class="side-photo-card" id="card-photo-modelo">
+            <div class="side-photo-wrapper">
+              <img src="assets/semaforos/modelo.jpeg" alt="Modelo de Red SUMO" loading="lazy">
+              <div class="side-tag tag-model">
+                <span class="side-tag-title">2. Red Digital de Simulación</span>
+                <span class="side-tag-desc">Modelo de red vial SUMO generado automáticamente</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Videos 1 y 2 en pantalla completa continua en GIF uno abajo del otro -->
+      <div class="fullscreen-videos-stack">
+        <div class="fullscreen-video-block">
+          <video id="semaforos-video-1" autoplay loop muted playsinline preload="auto">
+            <source src="assets/semaforos/video 1.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video HTML5.
+          </video>
+          <div class="video-overlay-tag">
+            <span>Simulación SUMO · Dinámica del Flujo Vehicular y Sincronización Inteligente de Semáforos</span>
+          </div>
+        </div>
+
+        <div class="video-separator-line"></div>
+
+        <div class="fullscreen-video-block">
+          <video id="semaforos-video-2" autoplay loop muted playsinline preload="auto">
+            <source src="assets/semaforos/video 2.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video HTML5.
+          </video>
+          <div class="video-overlay-tag">
+            <span>Orquestador en Vivo · Detección YOLO en Tiempo Real (Cámara) + Réplica Sincronizada en SUMO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-description-box project-box-padded">
+        <h3>Acerca del Proyecto</h3>
+        <p>
+          Este trabajo implementa una arquitectura híbrida que une la observación física del tráfico con la simulación
+          digital.
+          A partir de la cartografía real de Google Maps, se sintetiza automáticamente el grafo de vías y carriles en
+          <strong>SUMO (Simulation of Urban MObility)</strong>. Un modelo <strong>YOLO</strong> procesa la señal de
+          video de cámaras
+          urbanas para detectar vehículos y estado de luces semafóricas, alimentando al orquestador en tiempo real.
+          Mediante
+          <strong>Aprendizaje por Refuerzo (RL)</strong>, la política de control ajusta dinámicamente los ciclos y fases
+          de los semáforos,
+          minimizando demoras y colas de espera vehiculares.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista: Gate-Shift-Fuse (GSF) — Roni Barylko (Diapositivas en pantalla completa una abajo de la otra) -->
+  <div class="project-view fullwidth-view hidden" id="gsf-view">
+    <div class="project-container fullwidth-project-container">
+      <div class="project-header project-header-padded">
+        <div class="project-tags">
+          <span class="project-badge status-badge">En desarrollo</span>
+          <span class="project-badge">Gate-Shift-Fuse</span>
+          <span class="project-badge">Video Action Recognition</span>
+          <span class="project-badge">TPAMI 2023</span>
+        </div>
+        <h1 class="project-title">Gate-Shift-Fuse (GSF) para Reconocimiento de Acciones en Video</h1>
+        <p class="project-meta">
+          <strong>Roni Barylko</strong> · Tesis de Licenciatura en Ciencias de la Computación · FCEN · UBA · 2026-2027
+        </p>
+      </div>
+
+      <!-- Diapositivas de la presentación en pantalla completa una abajo de la otra -->
+      <div class="fullscreen-slides-stack">
+        <div class="fullscreen-slide-block" id="gsf-slide-1" title="Clic para ampliar diapositiva">
+          <img src="assets/GSF/slide_1.png" alt="Diapositiva 1 - ¿Qué es GSF?" loading="eager">
+        </div>
+
+        <div class="slide-separator-line"></div>
+
+        <div class="fullscreen-slide-block" id="gsf-slide-2" title="Clic para ampliar diapositiva">
+          <img src="assets/GSF/slide_2.png" alt="Diapositiva 2 - ¿Para qué sirve?" loading="lazy">
+        </div>
+
+        <div class="slide-separator-line"></div>
+
+        <div class="fullscreen-slide-block" id="gsf-slide-3" title="Clic para ampliar diapositiva">
+          <img src="assets/GSF/slide_3.png" alt="Diapositiva 3 - ¿Cómo funciona?" loading="lazy">
+        </div>
+      </div>
+
+      <div class="project-description-box project-box-padded">
+        <h3>Acerca del Proyecto</h3>
+        <p>
+          Este trabajo aborda la clasificación de acciones complejas en video superando la ceguera temporal de los
+          clasificadores 2D
+          aislados sin incurrir en la sobrecarga computacional de los modelos 3D convolucionales completos.
+          A través del mecanismo <strong>Gate-Shift-Fuse (GSF)</strong> (Sudhakaran, Escalera y Lanz, TPAMI 2023), la
+          red aprende
+          dinámicamente a desplazar e intercambiar información entre cuadros vecinos en canales específicos:
+          <strong>Gate</strong> determina qué características viajan, <strong>Shift</strong> propaga la información
+          temporal hacia adelante y atrás,
+          y <strong>Fuse</strong> combina los canales mediante ponderaciones aprendidas.
+          El resultado es un salto de rendimiento de <strong>+31,2 puntos porcentuales</strong> con tan solo un
+          <strong>+0,48%</strong> de parámetros extra
+          y <strong>+0,58%</strong> de FLOPs.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista: Otros Proyectos (En desarrollo) -->
+  <div class="project-view hidden" id="placeholder-view">
+    <div class="project-container placeholder-container">
+      <span class="project-badge status-badge" id="placeholder-badge">En desarrollo</span>
+      <h2 id="placeholder-title" class="project-title">Proyecto</h2>
+      <p id="placeholder-author" class="project-meta"></p>
+      <div class="project-description-box">
+        <p id="placeholder-desc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal para fotos Maps / Modelo -->
+  <div id="image-modal" class="image-modal hidden">
+    <button id="modal-close" class="modal-close-btn" title="Cerrar">✕</button>
+    <div class="modal-img-container">
+      <img id="modal-img" src="" alt="Ampliación">
+    </div>
+    <div id="modal-caption" class="modal-caption"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
