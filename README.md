@@ -21,3 +21,4 @@ Puedes abrir directamente el archivo `index.html` en un navegador web o ejecutar
 python -m http.server 8000
 ```
 Y luego acceder a `http://localhost:8000`.
+
