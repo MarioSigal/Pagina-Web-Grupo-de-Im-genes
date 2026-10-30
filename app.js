@@ -26,6 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const mriSlide1 = document.getElementById("mri-slide-1");
   const mriSlide2 = document.getElementById("mri-slide-2");
 
+  const eyesView = document.getElementById("eyes-view");
+  const eyesPupilVideo = document.getElementById("eyes-pupil-video");
+  const cardLivenessPipeline = document.getElementById("card-liveness-pipeline");
+  const cardOcularDynamics = document.getElementById("card-ocular-dynamics");
+  const cardLivenessResults = document.getElementById("card-liveness-results");
+  const cardMultimodalDataset = document.getElementById("card-multimodal-dataset");
+
   const joystickView = document.getElementById("joystick-view");
   const joystickVideo1 = document.getElementById("joystick-video-1");
   const joystickVideo2 = document.getElementById("joystick-video-2");
@@ -55,7 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
     joystickVideo1,
     joystickVideo2,
     semaforosVideo1,
-    semaforosVideo2
+    semaforosVideo2,
+    eyesPupilVideo
   ];
 
   // Lightbox Modal para fotos Maps, Modelo y Diapositivas GSF
@@ -131,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (senasView) senasView.classList.add("hidden");
     if (gsfView) gsfView.classList.add("hidden");
     if (mriView) mriView.classList.add("hidden");
+    if (eyesView) eyesView.classList.add("hidden");
     if (joystickView) joystickView.classList.add("hidden");
     if (semaforosView) semaforosView.classList.add("hidden");
     if (placeholderView) placeholderView.classList.add("hidden");
@@ -175,6 +184,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (projectId === "mri") {
       if (mriView) mriView.classList.remove("hidden");
       document.title = "Infiltración Oculta en Glioblastoma (MRI) — Dra. Cecilia Ana Suárez";
+    } else if (projectId === "eyes") {
+      if (eyesView) eyesView.classList.remove("hidden");
+      playVideoLoop(eyesPupilVideo);
+      document.title = "Eye Tracking & Visión Neuromórfica — Nicolas Mastropasqua";
     } else if (projectId === "joystick") {
       if (joystickView) joystickView.classList.remove("hidden");
       playVideoLoop(joystickVideo1);
@@ -303,6 +316,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // Clic en diagramas del proyecto Eyes para ampliar en modal
+  if (cardLivenessPipeline) {
+    cardLivenessPipeline.addEventListener("click", () => {
+      openImageModal("assets/Eyes/liveness_pipeline.png", "Event-based Liveness Detection Pipeline using Temporal Ocular Dynamics (2026)");
+    });
+  }
+  if (cardOcularDynamics) {
+    cardOcularDynamics.addEventListener("click", () => {
+      openImageModal("assets/Eyes/temporal_ocular_dynamics.png", "Dinámica Ocular Temporal · Flujo continuo asincrónico de eventos");
+    });
+  }
+  if (cardLivenessResults) {
+    cardLivenessResults.addEventListener("click", () => {
+      openImageModal("assets/Eyes/liveness_results.png", "Resultados y Matriz de Confusión · Face Liveness Detection (Train/Val 80:20)");
+    });
+  }
+  if (cardMultimodalDataset) {
+    cardMultimodalDataset.addEventListener("click", () => {
+      openImageModal("assets/Eyes/multimodal_dataset.png", "Dataset Multimodal (Eventos + RGB) para Análisis de Microexpresiones Faciales (2025)");
+    });
+  }
 
   if (modalClose && imageModal) {
     modalClose.addEventListener("click", () => {

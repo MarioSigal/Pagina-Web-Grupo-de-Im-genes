@@ -4,8 +4,8 @@ Sitio web interactivo para la visualización y difusión de proyectos de investi
 
 ## Proyectos destacados
 - **Segmentación de Polen (PollenBB16)**: Pipeline YOLO11 + μSAM (Segment Anything Model for Microscopy) para detección y segmentación de granos de polen.
+- **Eye Tracking & Visión Neuromórfica (Cámaras de Eventos)**: Enfoques neuromórficos con sensores DVS para pupil tracking de ultra alta frecuencia y detección de liveness facial mediante dinámica ocular temporal — Nicolas Mastropasqua (FCEN - UBA).
 - **Detección de Infiltración Oculta en Glioblastoma (MRI)**: Estrategia combinada de Deep Learning y microservicios para la detección no invasiva de infiltración tumoral oculta en resonancia magnética multiparamétrica preoperatoria (mpMRI) — Dra. Cecilia Ana Suárez (CONICET / FCEN - UBA).
-- **Simulador de Trayectorias Físicas de Trompos**: Simulación y visualización física mediante MuJoCo y ecuaciones diferenciales ordinarias.
 - **Detección y Clasificación de Semáforos**: Simulación en SUMO y optimización con Aprendizaje por Refuerzo (RL).
 - **Reconocimiento de Lengua de Señas (LSA)**: Modelo Bi-GRU + Cross-Attention sobre corpus LSA64.
 - **Mapping de Inputs de un Joystick**: Tracking y detección de interacciones con YOLO y MediaPipe.
