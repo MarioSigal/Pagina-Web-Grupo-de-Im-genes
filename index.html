@@ -96,6 +96,17 @@
         </div>
 
         <div class="project-separator"></div>
+
+        <div class="project-card" data-project="mri">
+          <span class="project-status">Investigación</span>
+          <h4>Infiltración Oculta en Glioblastoma (MRI)</h4>
+          <p>Estrategia combinada de Deep Learning y microservicios para la detección no invasiva de infiltración tumoral oculta en resonancia magnética multiparamétrica preoperatoria (mpMRI).</p>
+          <p>Dra. Cecilia Ana Suárez.</p>
+          <p>CONICET · Depto. de Computación / INFINA · FCEN - UBA.</p>
+          <p>2024-2026.</p>
+        </div>
+
+        <div class="project-separator"></div>
       </div>
     </div>
   </div>
@@ -397,6 +408,93 @@
           <strong>+0,48%</strong> de parámetros extra
           y <strong>+0,58%</strong> de FLOPs.
         </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista: Infiltración Oculta en Glioblastoma (MRI) — Dra. Cecilia Ana Suárez (Diapositivas a pantalla completa) -->
+  <div class="project-view fullwidth-view hidden" id="mri-view">
+    <div class="project-container fullwidth-project-container">
+      <div class="project-header project-header-padded">
+        <div class="project-tags">
+          <span class="project-badge status-badge">Investigación</span>
+          <span class="project-badge">CONICET · FCEN UBA</span>
+          <span class="project-badge">Multiparametric MRI (mpMRI)</span>
+          <span class="project-badge">Deep Learning &amp; Radiomics</span>
+          <span class="project-badge">Arquitectura de Microservicios</span>
+          <span class="project-badge">Glioblastoma (GBM)</span>
+        </div>
+        <h1 class="project-title">Detección de Infiltración Tumoral Oculta en Glioblastoma mediante Resonancia Magnética (mpMRI)</h1>
+        <p class="project-meta">
+          <strong>Dra. Cecilia Ana Suárez</strong> · Investigadora Adjunta CONICET · Depto. de Computación / INFINA (FCEN - UBA) ·
+          <a href="https://scholar.google.com/scholar?q=%22Cecilia+A.+Suarez%22+OR+%22Cecilia+Ana+Suarez%22+glioblastoma" target="_blank" rel="noopener noreferrer" class="scholar-link" title="Buscar perfil y publicaciones en Google Scholar">
+            <span>🔍 Google Scholar</span>
+          </a>
+        </p>
+      </div>
+
+      <!-- Diapositivas de la presentación en pantalla completa una abajo de la otra -->
+      <div class="fullscreen-slides-stack">
+        <!-- Diapositiva 1: Graphical Abstract -->
+        <div class="fullscreen-slide-block" id="mri-slide-1" title="Clic para ampliar en alta resolución (2880×1620)">
+          <button class="slide-fs-btn" data-target="mri-slide-1" title="Alternar modo pantalla completa">⛶ Pantalla completa</button>
+          <img src="assets/MRI/slide_1_graphical_abstract.png" alt="Diapositiva 1 - Graphical Abstract: Combined deep learning strategy for the identification of hidden glioblastoma infiltration in preoperative multiparametric MRI" loading="eager">
+          <div class="slide-overlay-tag tag-cyan">
+            <span>Diapositiva 1 · Graphical Abstract · Estrategia Combinada Deep Learning (UPenn-GBM, 11 Modalidades)</span>
+          </div>
+        </div>
+
+        <div class="slide-separator-line"></div>
+
+        <!-- Diapositiva 2: Microservicios -->
+        <div class="fullscreen-slide-block" id="mri-slide-2" title="Clic para ampliar en alta resolución (2880×1620)">
+          <button class="slide-fs-btn" data-target="mri-slide-2" title="Alternar modo pantalla completa">⛶ Pantalla completa</button>
+          <img src="assets/MRI/slide_2_microservicios.png" alt="Diapositiva 2 - Arquitectura de microservicios para la detección de infiltración tumoral oculta en glioblastoma" loading="lazy">
+          <div class="slide-overlay-tag tag-cyan">
+            <span>Diapositiva 2 · Arquitectura Distribuida de Microservicios para Procesamiento e Inferencia Clínica 3D</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-description-box project-box-padded">
+        <div class="pdf-download-strip">
+          <span class="pdf-strip-title">Archivos originales en PDF:</span>
+          <a href="assets/MRI/Graphical_abstract.pdf" target="_blank" rel="noopener noreferrer" class="btn-pdf-download">
+            📄 Abrir Graphical_abstract.pdf ↗
+          </a>
+          <a href="assets/MRI/Microservicios.pdf" target="_blank" rel="noopener noreferrer" class="btn-pdf-download">
+            📄 Abrir Microservicios.pdf ↗
+          </a>
+        </div>
+
+        <h3>Acerca de la Investigación</h3>
+        <p>
+          El <strong>glioblastoma multiforme (GBM)</strong> es la neoplasia cerebral primaria más agresiva y letal. Su principal desafío clínico es su alta capacidad infiltrativa: las células cancerígenas invaden el parénquima cerebral y el edema peritumoral más allá del núcleo tumoral visible en secuencias convencionales de resonancia magnética. Esta <em>infiltración microscópica oculta</em> es la causante fundamental de las recidivas tumorales tras la resección quirúrgica y la radioterapia.
+        </p>
+        <p>
+          La investigación liderada por la <strong>Dra. Cecilia Ana Suárez</strong> (investigadora del CONICET y docente en el Departamento de Computación / Instituto de Física Interdisciplinaria y Aplicada de la Facultad de Ciencias Exactas y Naturales de la UBA) aborda esta problemática mediante una sinergia entre neuroimagen multiparamétrica, inteligencia artificial y arquitectura de software científico:
+        </p>
+        <ul class="project-details-list">
+          <li>
+            <strong>Estrategia de Deep Learning Multimodal:</strong> Combinación de dos pipelines sobre el dataset de referencia <strong>UPenn-GBM</strong> con 11 modalidades de resonancia magnética (secuencias estructurales T1, T1-Gd, T2, FLAIR, junto a mapas de difusión DTI/ADC y perfusión DSC-MRI). El modelo genera <strong>mapas de probabilidad voxel a voxel</strong> que identifican de forma no invasiva las áreas de infiltración silenciosa en la etapa preoperatoria.
+          </li>
+          <li>
+            <strong>Arquitectura Modular de Microservicios:</strong> Sistema distribuido y desacoplado para el pipeline clínico integral (ingesta DICOM/NIfTI, preprocesamiento y corregistro volumétrico, extracción radiómica tridimensional, e inferencia paralela de redes neuronales). Esta arquitectura garantiza escalabilidad, reproducibilidad y despliegue ágil en entornos hospitalarios y de investigación.
+          </li>
+          <li>
+            <strong>Impacto Clínico Directo:</strong> Proporciona por primera vez a neurocirujanos y radio-oncólogos una herramienta no invasiva para la planificación personalizada de cirugías de citorreducción ampliada y la delimitación precisa del volumen blanco en radioterapia, reduciendo el riesgo de recurrencia temprana.
+          </li>
+        </ul>
+
+        <div class="scholar-badge-card">
+          <div class="scholar-badge-info">
+            <span class="scholar-badge-title">Dra. Cecilia Ana Suárez · Perfil Académico &amp; Citas</span>
+            <span class="scholar-badge-subtitle">Doctora en Ciencias Biológicas (UBA) · Investigadora Adjunta CONICET · Biofísica y Medicina Computacional</span>
+          </div>
+          <a href="https://scholar.google.com/scholar?q=%22Cecilia+A.+Suarez%22+OR+%22Cecilia+Ana+Suarez%22+glioblastoma" target="_blank" rel="noopener noreferrer" class="btn-scholar">
+            Ver publicaciones en Google Scholar ↗
+          </a>
+        </div>
       </div>
     </div>
   </div>

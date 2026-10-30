@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const gsfSlide2 = document.getElementById("gsf-slide-2");
   const gsfSlide3 = document.getElementById("gsf-slide-3");
 
+  const mriView = document.getElementById("mri-view");
+  const mriSlide1 = document.getElementById("mri-slide-1");
+  const mriSlide2 = document.getElementById("mri-slide-2");
+
   const joystickView = document.getElementById("joystick-view");
   const joystickVideo1 = document.getElementById("joystick-video-1");
   const joystickVideo2 = document.getElementById("joystick-video-2");
@@ -126,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (container) container.classList.add("hidden");
     if (senasView) senasView.classList.add("hidden");
     if (gsfView) gsfView.classList.add("hidden");
+    if (mriView) mriView.classList.add("hidden");
     if (joystickView) joystickView.classList.add("hidden");
     if (semaforosView) semaforosView.classList.add("hidden");
     if (placeholderView) placeholderView.classList.add("hidden");
@@ -167,6 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (projectId === "gsf") {
       if (gsfView) gsfView.classList.remove("hidden");
       document.title = "Gate-Shift-Fuse (GSF) — Roni Barylko";
+    } else if (projectId === "mri") {
+      if (mriView) mriView.classList.remove("hidden");
+      document.title = "Infiltración Oculta en Glioblastoma (MRI) — Dra. Cecilia Ana Suárez";
     } else if (projectId === "joystick") {
       if (joystickView) joystickView.classList.remove("hidden");
       playVideoLoop(joystickVideo1);
@@ -259,6 +267,42 @@ document.addEventListener("DOMContentLoaded", () => {
       openImageModal("assets/GSF/slide_3.png", "Diapositiva 3 / 3 · ¿Cómo funciona? Gate, Shift, Fuse por canal");
     });
   }
+
+  // Clic en diapositivas MRI para ampliar en modal
+  if (mriSlide1) {
+    mriSlide1.addEventListener("click", (e) => {
+      if (e.target.closest(".slide-fs-btn")) return;
+      openImageModal("assets/MRI/slide_1_graphical_abstract.png", "Diapositiva 1 / 2 · Graphical Abstract: Combined Deep Learning Strategy for Preoperative Hidden Infiltration Identification (Dra. Cecilia Suárez)");
+    });
+  }
+  if (mriSlide2) {
+    mriSlide2.addEventListener("click", (e) => {
+      if (e.target.closest(".slide-fs-btn")) return;
+      openImageModal("assets/MRI/slide_2_microservicios.png", "Diapositiva 2 / 2 · Arquitectura de Microservicios para la Detección de Infiltración Tumoral Oculta en Glioblastoma (Dra. Cecilia Suárez)");
+    });
+  }
+
+  // Soporte de Pantalla Completa nativa para diapositivas
+  document.querySelectorAll(".slide-fs-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const targetId = btn.dataset.target;
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        if (!document.fullscreenElement) {
+          if (targetEl.requestFullscreen) {
+            targetEl.requestFullscreen();
+          } else if (targetEl.webkitRequestFullscreen) {
+            targetEl.webkitRequestFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      }
+    });
+  });
 
   if (modalClose && imageModal) {
     modalClose.addEventListener("click", () => {
